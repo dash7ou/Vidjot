@@ -1,7 +1,11 @@
 <nav class="main-nav">
-  <ul class="main-nav--ist">
-    <li class="main-nav-item--logo">VIDJOT</li>
-    <li class="main-nav-item--logo">Home</li>
-    <li class="main-nav-item--logo">About</li>
+  <ul class="main-nav-list">
+    <li class="main-nav-item main-nav-item--logo"><a href="/">VIDJOT</a></li>
+    <li class="main-nav-item">
+      <a class="<%= path === '/' ? 'active' :'' %>" href="/">Home</a>
+    </li>
+    <li class="main-nav-item">
+      <a class="<%= path === '/about' ? 'active' :'' %>" href="/about">About</a>
+    </li>
   </ul>
 </nav>

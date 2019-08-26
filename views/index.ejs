@@ -1,9 +1,15 @@
 <%- include("./includes/header.ejs") %>
+<link rel="stylesheet" href="/css/main.css">
 </head>
 
 <body>
     <%- include("./includes/navbar.ejs") %>
-    <h1>Welcome</h1>
-
+    <div class="main-message">
+        <div class="center main-welcome-message">
+            <h1>Welcome</h1>
+            <p>Jot down ideas for your next <a target="_blank" href="https://www.youtube.com">YouTube</a> video</p>
+            <a href="/ideas/add" class="btn btn__add-video-idea">Add Video Idea</a>
+        </div>
+    </div>
 
 <%- include("./includes/end.ejs")%>
