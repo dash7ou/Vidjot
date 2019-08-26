@@ -2,10 +2,14 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const { Idea } = require("./models/idea");
 
 //set ejs engine and views folder
 app.set("view engine", "ejs");
 app.set("views", "views");
+
+app.use(bodyParser.urlencoded({ extended: false }));
 
 //add css and js in public folder to express
 app.use(express.static(path.join(__dirname, "public")));
@@ -27,8 +31,41 @@ app.get("/about", (req, res) => {
 app.get("/ideas/add", (req, res) => {
   res.render("ideas/addIdea", {
     pageTitle: "Add New Idea",
-    path: "/ideas/add"
+    path: "/ideas/add",
+    errors: []
   });
+});
+
+app.post("/ideas", async (req, res) => {
+  const title = req.body.title;
+  const description = req.body.description;
+  const errors = [];
+  if (!title) {
+    errors.push({
+      message: "Enter Title Of Idea.."
+    });
+  }
+
+  if (!description) {
+    errors.push({
+      message: "Enter Description To You Idea"
+    });
+  }
+
+  if (errors.length > 0) {
+    return res.render("ideas/addIdea", {
+      pageTitle: "Add New Idea",
+      path: "/ideas/add",
+      errors: errors
+    });
+  }
+  const idea = new Idea({
+    title: title,
+    details: description
+  });
+  await idea.save();
+
+  res.send("no one here :)");
 });
 
 //setup port

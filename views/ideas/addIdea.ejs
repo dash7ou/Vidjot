@@ -6,6 +6,11 @@
 <body>
     <%- include("../includes/navbar.ejs") %>
     <h3>Video Idea</h3>
+    <%if(errors.length > 0){%>
+        <div class="show-error">
+            <p> <%= errors[0].message %></p>
+        </div>
+    <%}%>
     <div class="center contener">
         <form action="/ideas" method="POST">
             <div class="row">
@@ -13,7 +18,7 @@
                     <label for="title">Title:</label>
                 </div>
                 <div class="input-text">
-                    <input type="text" name="title" required placeholder="Enter Title">
+                    <input type="text" name="title"  placeholder="Enter Title">
                 </div>
             </div>
             <div class="row">
@@ -21,7 +26,7 @@
                     <label for="description">Description:</label>
                 </div>
                 <div class="input-text">
-                    <textarea name="description" id="description" placeholder="Write Something..." style="height: 200px" required></textarea>
+                    <textarea name="description" id="description" placeholder="Write Something..." style="height: 200px" ></textarea>
                 </div>
             </div>
                 <button class="btn" type="submit">Add Idea</button>

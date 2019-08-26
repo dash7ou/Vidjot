@@ -105,3 +105,15 @@ a {
 .about-para p {
   padding-bottom: 7px;
 }
+
+.show-error {
+  padding: 0.5rem;
+
+  background: red;
+  text-align: center;
+  border: 1px solid #000;
+  width: 50%;
+  margin: auto;
+  color: blue;
+  margin-top: 5px;
+}
