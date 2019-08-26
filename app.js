@@ -51,10 +51,17 @@ app.post("/ideas", async (req, res) => {
 
     const ideas = await Idea.find();
 
+    let successfully = [];
+
+    successfully.push({
+      message: "Edit product successful"
+    });
+
     res.render("ideas/showIdeas", {
       pageTitle: "Show All Ideas",
       path: "/ideas",
-      ideas: ideas
+      ideas: ideas,
+      successfully: successfully
     });
   } else {
     const title = req.body.title;
@@ -90,7 +97,8 @@ app.post("/ideas", async (req, res) => {
     res.render("ideas/showIdeas", {
       pageTitle: "Show All Ideas",
       path: "/ideas",
-      ideas: ideas
+      ideas: ideas,
+      successfully: []
     });
   }
 });
@@ -101,7 +109,8 @@ app.get("/ideas", async (req, res) => {
   res.render("ideas/showIdeas", {
     pageTitle: "Show All Ideas",
     path: "/ideas",
-    ideas: ideas
+    ideas: ideas,
+    successfully: []
   });
 });
 
@@ -122,7 +131,8 @@ app.get("/ideas/delete/:id", async (req, res) => {
   res.render("ideas/showIdeas", {
     pageTitle: "Show All Ideas",
     path: "/ideas",
-    ideas: ideas
+    ideas: ideas,
+    successfully: []
   });
 });
 

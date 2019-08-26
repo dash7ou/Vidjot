@@ -6,6 +6,11 @@
 <body>
     <%- include("../includes/navbar.ejs") %>
     <h1>Ideas</h1>
+    <%if(successfully.length > 0){%>
+        <div class="show-success">
+            <p> <%= successfully[0].message %></p>
+        </div>
+    <%}%>
     <div class="allIdeas">
         <%if(ideas.length> 0){%>
             <%ideas.forEach(idea=>{%>
