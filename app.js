@@ -107,12 +107,22 @@ app.get("/ideas", async (req, res) => {
 
 app.get("/ideas/edit/:id", async (req, res) => {
   const idea = await Idea.findById(req.params.id);
-  console.log(idea);
   res.render("ideas/addIdea", {
     pageTitle: "Edit product",
     path: "/edit",
     idea: idea,
     errors: []
+  });
+});
+
+app.get("/ideas/delete/:id", async (req, res) => {
+  const idea = await Idea.findById(req.params.id);
+  await Idea.deleteOne({ _id: req.params.id });
+  const ideas = await Idea.find();
+  res.render("ideas/showIdeas", {
+    pageTitle: "Show All Ideas",
+    path: "/ideas",
+    ideas: ideas
   });
 });
 
