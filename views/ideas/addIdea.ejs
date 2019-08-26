@@ -18,7 +18,7 @@
                     <label for="title">Title:</label>
                 </div>
                 <div class="input-text">
-                    <input type="text" name="title"  placeholder="Enter Title">
+                    <input type="text" name="title"  placeholder="Enter Title" value= "<%=!idea.title ? '' : idea.title%>">
                 </div>
             </div>
             <div class="row">
@@ -26,10 +26,18 @@
                     <label for="description">Description:</label>
                 </div>
                 <div class="input-text">
-                    <textarea name="description" id="description" placeholder="Write Something..." style="height: 200px" ></textarea>
+                    <textarea name="description" id="description" placeholder="Write Something..." style="height: 200px"><%=!idea.details ? '' : idea.details %></textarea>
                 </div>
             </div>
-                <button class="btn" type="submit">Add Idea</button>
+                <%if(path === "/edit"){%>
+                    <button class="btn" type="submit">Edit Idea</button>
+               <%}else{%>
+                    <button class="btn" type="submit">Add Idea</button>
+                <%}%>
+
+                <% if (path = "/edit") { %>
+                    <input type="hidden" value="<%= idea._id %>" name="ideaId">
+                <%}%>
             </div>
         </form>
     </div>

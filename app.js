@@ -32,43 +32,67 @@ app.get("/ideas/add", (req, res) => {
   res.render("ideas/addIdea", {
     pageTitle: "Add New Idea",
     path: "/ideas/add",
-    errors: []
+    errors: [],
+    idea: {}
   });
 });
 
 app.post("/ideas", async (req, res) => {
-  const title = req.body.title;
-  const description = req.body.description;
-  const errors = [];
-  if (!title) {
-    errors.push({
-      message: "Enter Title Of Idea.."
+  const ideaId = req.body.ideaId;
+  if (ideaId) {
+    const idea = await Idea.findById(ideaId);
+    const title = req.body.title;
+    const description = req.body.description;
+
+    idea.title = title;
+    idea.details = description;
+
+    await idea.save();
+
+    const ideas = await Idea.find();
+
+    res.render("ideas/showIdeas", {
+      pageTitle: "Show All Ideas",
+      path: "/ideas",
+      ideas: ideas
+    });
+  } else {
+    const title = req.body.title;
+    const description = req.body.description;
+    const errors = [];
+    if (!title) {
+      errors.push({
+        message: "Enter Title Of Idea.."
+      });
+    }
+
+    if (!description) {
+      errors.push({
+        message: "Enter Description To You Idea"
+      });
+    }
+
+    if (errors.length > 0) {
+      return res.render("ideas/addIdea", {
+        pageTitle: "Add New Idea",
+        path: "/ideas/add",
+        errors: errors,
+        idea: {}
+      });
+    }
+    const idea = new Idea({
+      title: title,
+      details: description
+    });
+    await idea.save();
+    const ideas = await Idea.find();
+
+    res.render("ideas/showIdeas", {
+      pageTitle: "Show All Ideas",
+      path: "/ideas",
+      ideas: ideas
     });
   }
-
-  if (!description) {
-    errors.push({
-      message: "Enter Description To You Idea"
-    });
-  }
-
-  if (errors.length > 0) {
-    return res.render("ideas/addIdea", {
-      pageTitle: "Add New Idea",
-      path: "/ideas/add",
-      errors: errors
-    });
-  }
-  const idea = new Idea({
-    title: title,
-    details: description
-  });
-  await idea.save();
-
-  res.render("ideas/showIdeas", {
-    pageTitle: "Show All Ideas",
-    path: "/ideas"
-  });
 });
 
 app.get("/ideas", async (req, res) => {
@@ -78,6 +102,17 @@ app.get("/ideas", async (req, res) => {
     pageTitle: "Show All Ideas",
     path: "/ideas",
     ideas: ideas
+  });
+});
+
+app.get("/ideas/edit/:id", async (req, res) => {
+  const idea = await Idea.findById(req.params.id);
+  console.log(idea);
+  res.render("ideas/addIdea", {
+    pageTitle: "Edit product",
+    path: "/edit",
+    idea: idea,
+    errors: []
   });
 });
 

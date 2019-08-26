@@ -141,3 +141,18 @@ a {
   padding: 3px;
   margin-left: 1rem;
 }
+
+.product-button {
+  float: right;
+  margin-top: -1.4rem;
+}
+
+.product-button .btn {
+  padding: 5px;
+  margin-top: 5px;
+  background: #2f2626;
+  color: #c5aa6a;
+  margin-left: 0px;
+  border-radius: 0px;
+  width: 10px;
+}
