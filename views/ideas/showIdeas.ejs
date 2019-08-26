@@ -1,0 +1,21 @@
+<%- include("../includes/header.ejs") %>
+<link rel="stylesheet" href="/css/main.css">
+
+</head>
+
+<body>
+    <%- include("../includes/navbar.ejs") %>
+    <h1>Ideas</h1>
+    <div class="allIdeas">
+        <%if(ideas.length> 0){%>
+            <%ideas.forEach(idea=>{%>
+            <div class="ideaShow">
+                <h4><%=idea.title %></h4>
+                <p><%=idea.details%></p>
+            </div>
+            <%})%>
+        <%}else{%>
+            <h3>No Idea to show it</h3>
+        <%}%>
+    </div>
+    <%- include("../includes/end.ejs")%>

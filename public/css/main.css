@@ -117,3 +117,27 @@ a {
   color: blue;
   margin-top: 5px;
 }
+
+.allIdeas {
+  margin-top: 2rem;
+}
+
+.ideaShow {
+  margin: auto;
+  border: 1px solid #000;
+  border-radius: 5px;
+  padding: 5px;
+  margin-bottom: 1rem;
+  width: 70%;
+}
+
+.ideaShow h4 {
+  padding: 5px;
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+}
+
+.ideaShow p {
+  padding: 3px;
+  margin-left: 1rem;
+}

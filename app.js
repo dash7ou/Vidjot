@@ -65,7 +65,20 @@ app.post("/ideas", async (req, res) => {
   });
   await idea.save();
 
-  res.send("no one here :)");
+  res.render("ideas/showIdeas", {
+    pageTitle: "Show All Ideas",
+    path: "/ideas"
+  });
+});
+
+app.get("/ideas", async (req, res) => {
+  const ideas = await Idea.find();
+
+  res.render("ideas/showIdeas", {
+    pageTitle: "Show All Ideas",
+    path: "/ideas",
+    ideas: ideas
+  });
 });
 
 //setup port
