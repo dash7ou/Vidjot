@@ -1,10 +1,13 @@
 const express = require("express");
 const app = express();
 const path = require("path");
+const mongoose = require("mongoose");
 
+//set ejs engine and views folder
 app.set("view engine", "ejs");
 app.set("views", "views");
 
+//add css and js in public folder to express
 app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", (req, res) => {
@@ -21,8 +24,22 @@ app.get("/about", (req, res) => {
   });
 });
 
+//setup port
 const port = 3000 || process.env.PORT;
 
-app.listen(port, () => {
-  console.log(`Server started on port ${port}`);
-});
+//connect to DB mongodb port 27018
+mongoose
+  .connect("mongodb://localhost:27018/vid-jot-dev", {
+    useNewUrlParser: true,
+    useCreateIndex: true
+  })
+  .then(_ => console.log("Connect to mongodb done. port 27018"))
+  .then(_ => {
+    //listen to port run
+    app.listen(port, () => {
+      console.log(`Server started on port ${port}`);
+    });
+  })
+  .catch(err => {
+    console.log(err);
+  });
