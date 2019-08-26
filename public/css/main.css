@@ -86,3 +86,16 @@ a {
 .btn__add-video-idea {
   padding: 1.2rem 2rem;
 }
+.about-main h1 {
+  padding: 1rem;
+  font-size: 3rem;
+  font-weight: bold;
+}
+.about-para {
+  font-size: 2rem;
+  padding: 2rem;
+}
+
+.about-para p {
+  padding-bottom: 7px;
+}
