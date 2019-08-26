@@ -12,6 +12,8 @@ nav {
   height: 3rem;
   background-color: #2f2626;
   margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
 }
 
 .main-nav-list {
@@ -40,6 +42,10 @@ a {
 .main-nav-item--logo {
   font-weight: bolder;
   margin-right: 1.5rem;
+}
+
+.nav-right {
+  margin-right: 3rem;
 }
 
 .main-nav-item a:hover,

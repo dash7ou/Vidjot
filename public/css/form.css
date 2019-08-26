@@ -1,0 +1,46 @@
+h3 {
+  font-size: 3rem;
+  font-weight: normal;
+  margin-left: 1rem;
+}
+
+.contener {
+  border-radius: 5px;
+  background: #f2f2f2;
+  padding: 20px;
+  width: 60%;
+  margin: auto;
+  margin-top: 3rem;
+}
+
+input,
+textarea {
+  width: 100%;
+  font-size: 1.5rem;
+  border-radius: 5px;
+}
+
+input[type="text"] {
+  padding: 12px;
+  border: 1px solid #ccc;
+  resize: vertical;
+}
+
+.label-text {
+  float: left;
+  width: 25%;
+  margin-top: 10px;
+  font-size: 1.2rem;
+}
+
+.input-text {
+  float: left;
+  width: 75%;
+  margin-top: 6px;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}

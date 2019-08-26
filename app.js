@@ -24,6 +24,13 @@ app.get("/about", (req, res) => {
   });
 });
 
+app.get("/ideas/add", (req, res) => {
+  res.render("ideas/addIdea", {
+    pageTitle: "Add New Idea",
+    path: "/ideas/add"
+  });
+});
+
 //setup port
 const port = 3000 || process.env.PORT;
 
