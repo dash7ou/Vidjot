@@ -243,6 +243,11 @@ app.post("/signup", async (req, res) => {
   const email = req.body.email;
   const password = await bcrypt.hash(req.body.password, 12);
 
+  const userExist = await User.findOne({ email: email });
+  if (userExist) {
+    return res.redirect("/signup");
+  }
+
   const user = new User({
     name,
     password,
