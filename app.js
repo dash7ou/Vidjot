@@ -156,7 +156,7 @@ app.get("/login", (req, res) => {
 
 //signup router
 app.get("/signup", (req, res) => {
-  res.render("auth/login", {
+  res.render("auth/signup", {
     pageTitle: "Signup",
     path: "Signup"
   });

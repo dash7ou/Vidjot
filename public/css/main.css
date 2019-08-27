@@ -136,6 +136,9 @@ a {
   font-size: 1.1rem;
   margin-bottom: 5px;
 }
+button {
+  cursor: pointer;
+}
 
 .ideaShow p {
   padding: 3px;
