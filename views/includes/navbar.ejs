@@ -10,6 +10,16 @@
   </ul>
   <ul class="main-nav-list nav-right">
     <li class="main-nav-item">
+      <a class="<%= path === '/login' ? 'active' :'' %>" href="/login">Login</a>
+    </li>
+    <li class="main-nav-item">
+      <a class="<%= path === '/signup' ? 'active' :'' %>" href="/signup"
+        >Signup</a
+      >
+    </li>
+  </ul>
+  <!-- <ul class="main-nav-list nav-right">
+    <li class="main-nav-item">
       <a class="<%= path === '/ideas' ? 'active' :'' %>" href="/ideas">Ideas</a>
     </li>
     <li class="main-nav-item">
@@ -17,5 +27,5 @@
         >Add Idea</a
       >
     </li>
-  </ul>
+  </ul> -->
 </nav>

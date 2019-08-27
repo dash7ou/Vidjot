@@ -5,6 +5,9 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const { Idea } = require("./models/idea");
 const session = require("express-session");
+const bcrypt = require("bcryptjs");
+const { User } = require("./models/user");
+const passport = require("passport");
 
 //set ejs engine and views folder
 app.set("view engine", "ejs");
@@ -150,7 +153,9 @@ app.get("/ideas/delete/:id", async (req, res) => {
 app.get("/login", (req, res) => {
   res.render("auth/login", {
     pageTitle: "Login",
-    path: "login"
+    path: "/login",
+    errors: [],
+    successfully: []
   });
 });
 
@@ -158,7 +163,79 @@ app.get("/login", (req, res) => {
 app.get("/signup", (req, res) => {
   res.render("auth/signup", {
     pageTitle: "Signup",
-    path: "Signup"
+    path: "/signup"
+  });
+});
+
+app.post("/signup", async (req, res) => {
+  const name = req.body.name;
+  const email = req.body.email;
+  const password = await bcrypt.hash(req.body.password, 12);
+
+  const user = new User({
+    name,
+    password,
+    email
+  });
+  let errors = [];
+  let successfully = [];
+
+  successfully.push({
+    message: "signup done."
+  });
+
+  await user.save();
+  res.render("auth/login", {
+    pageTitle: "Login",
+    path: "/login",
+    errors: [],
+    successfully: successfully
+  });
+});
+
+app.post("/login", async (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+  let errors = [];
+  let successfully = [];
+
+  const user = await User.findOne({ email: email });
+  console.log(user);
+
+  if (!user) {
+    errors.push({
+      message: "email not correct"
+    });
+    // console.log(errors);
+
+    return res.render("auth/login", {
+      pageTitle: "Login",
+      path: "/login",
+      errors: errors,
+      successfully: []
+    });
+  }
+  const isMatch = await bcrypt.compare(password, user.password);
+
+  if (!isMatch) {
+    errors.push({
+      message: "password not correct"
+    });
+    return res.render("auth/login", {
+      pageTitle: "Login",
+      path: "/login",
+      errors: errors,
+      successfully: []
+    });
+  }
+
+  const ideas = await Idea.find();
+
+  res.render("ideas/showIdeas", {
+    pageTitle: "Show All Ideas",
+    path: "/ideas",
+    ideas: ideas,
+    successfully: []
   });
 });
 

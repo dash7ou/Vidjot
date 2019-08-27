@@ -5,9 +5,19 @@
 
 <body>
     <%- include("../includes/navbar.ejs") %>
-    <h1 class="center">login</h1>
+    <%if(errors.length > 0){%>
+        <div class="show-error">
+            <p> <%= errors[0].message %></p>
+        </div>
+    <%}%>
+    <%if(successfully.length > 0){%>
+        <div class="show-success">
+            <p> <%= successfully[0].message %></p>
+        </div>
+    <%}%>
     <div class= "form-login center">
-        <form action="/" method="POST">
+        <h1 class="center">Account Login</h1>
+        <form action="/login" method="POST">
             <div class = "row">
                 <div class="label-auth">
                     <label for="email" >Email:</label>
