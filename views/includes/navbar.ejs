@@ -8,6 +8,8 @@
       <a class="<%= path === '/about' ? 'active' :'' %>" href="/about">About</a>
     </li>
   </ul>
+
+  <%if(!isAuthentication){%>
   <ul class="main-nav-list nav-right">
     <li class="main-nav-item">
       <a class="<%= path === '/login' ? 'active' :'' %>" href="/login">Login</a>
@@ -18,7 +20,8 @@
       >
     </li>
   </ul>
-  <!-- <ul class="main-nav-list nav-right">
+  <%}else if(isAuthentication){%>
+  <ul class="main-nav-list nav-right">
     <li class="main-nav-item">
       <a class="<%= path === '/ideas' ? 'active' :'' %>" href="/ideas">Ideas</a>
     </li>
@@ -27,5 +30,14 @@
         >Add Idea</a
       >
     </li>
-  </ul> -->
+    <li class="main-nav-item">
+      <div class="btn btn-delete">
+        <form action="/logout" method="POST">
+          <button type="submit">Logout</button>
+          <input type="hidden" name="logout" value="yes" />
+        </form>
+      </div>
+    </li>
+  </ul>
+  <%}%>
 </nav>

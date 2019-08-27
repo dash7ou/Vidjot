@@ -7,7 +7,14 @@ const { Idea } = require("./models/idea");
 const session = require("express-session");
 const bcrypt = require("bcryptjs");
 const { User } = require("./models/user");
-const passport = require("passport");
+const flash = require("flash");
+const mongodbStoreSession = require("connect-mongodb-session")(session);
+
+const mongodbUrl = "mongodb://localhost:27018/vid-jot-dev";
+const store = new mongodbStoreSession({
+  uri: mongodbUrl,
+  collection: "sessions"
+});
 
 //set ejs engine and views folder
 app.set("view engine", "ejs");
@@ -22,10 +29,32 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(
   session({
     secret: "anythingyouwant",
-    resave: true,
-    saveUninitialized: true
+    resave: false,
+    saveUninitialized: true,
+    store: store
   })
 );
+
+//for session
+app.use(async (req, res, next) => {
+  if (!req.session.user) {
+    return next();
+  }
+
+  const user = await User.findById(req.session.user._id);
+  if (!user) {
+    return next();
+  }
+  req.user = user;
+  next();
+});
+
+app.use((req, res, next) => {
+  res.locals.isAuthentication = req.session.isLoggedIn;
+  next();
+});
+
+app.use(flash());
 
 app.get("/", (req, res) => {
   res.render("index", {
@@ -230,12 +259,17 @@ app.post("/login", async (req, res) => {
   }
 
   const ideas = await Idea.find();
+  req.session.isLoggedIn = true;
+  req.session.user = user;
+  await req.session.save();
 
-  res.render("ideas/showIdeas", {
-    pageTitle: "Show All Ideas",
-    path: "/ideas",
-    ideas: ideas,
-    successfully: []
+  res.redirect("/ideas");
+});
+
+app.post("/logout", (req, res) => {
+  req.session.destroy(err => {
+    console.log(err);
+    res.redirect("/");
   });
 });
 

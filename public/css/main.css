@@ -169,3 +169,16 @@ button {
   color: blue;
   margin-top: 5px;
 }
+
+.btn-delete {
+  padding: 0px;
+  margin: 0px;
+  border: none;
+}
+
+.btn-delete button {
+  background: rgb(47, 38, 38);
+  border: none;
+  color: #c5aa6a;
+  font-size: 1rem;
+}
