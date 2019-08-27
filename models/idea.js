@@ -18,6 +18,7 @@ const SchemaIdea = new mongoose.Schema(
     }
   },
   {
+    //realy bro
     timestamps: true
   }
 );
