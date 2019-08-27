@@ -9,6 +9,7 @@ const bcrypt = require("bcryptjs");
 const { User } = require("./models/user");
 const flash = require("flash");
 const mongodbStoreSession = require("connect-mongodb-session")(session);
+const isAuth = require("./middleware/auth");
 
 const mongodbUrl = "mongodb://localhost:27018/vid-jot-dev";
 const store = new mongodbStoreSession({
@@ -70,7 +71,7 @@ app.get("/about", (req, res) => {
   });
 });
 
-app.get("/ideas/add", (req, res) => {
+app.get("/ideas/add", isAuth, (req, res) => {
   res.render("ideas/addIdea", {
     pageTitle: "Add New Idea",
     path: "/ideas/add",
@@ -79,7 +80,7 @@ app.get("/ideas/add", (req, res) => {
   });
 });
 
-app.post("/ideas", async (req, res) => {
+app.post("/ideas", isAuth, async (req, res) => {
   const ideaId = req.body.ideaId;
   if (ideaId) {
     const idea = await Idea.findById(ideaId);
@@ -145,7 +146,7 @@ app.post("/ideas", async (req, res) => {
   }
 });
 
-app.get("/ideas", async (req, res) => {
+app.get("/ideas", isAuth, async (req, res) => {
   const ideas = await Idea.find();
 
   res.render("ideas/showIdeas", {
@@ -156,7 +157,7 @@ app.get("/ideas", async (req, res) => {
   });
 });
 
-app.get("/ideas/edit/:id", async (req, res) => {
+app.get("/ideas/edit/:id", isAuth, async (req, res) => {
   const idea = await Idea.findById(req.params.id);
   res.render("ideas/addIdea", {
     pageTitle: "Edit product",
@@ -166,7 +167,7 @@ app.get("/ideas/edit/:id", async (req, res) => {
   });
 });
 
-app.get("/ideas/delete/:id", async (req, res) => {
+app.get("/ideas/delete/:id", isAuth, async (req, res) => {
   const idea = await Idea.findById(req.params.id);
   await Idea.deleteOne({ _id: req.params.id });
   const ideas = await Idea.find();
@@ -229,13 +230,11 @@ app.post("/login", async (req, res) => {
   let successfully = [];
 
   const user = await User.findOne({ email: email });
-  console.log(user);
 
   if (!user) {
     errors.push({
       message: "email not correct"
     });
-    // console.log(errors);
 
     return res.render("auth/login", {
       pageTitle: "Login",
@@ -268,8 +267,15 @@ app.post("/login", async (req, res) => {
 
 app.post("/logout", (req, res) => {
   req.session.destroy(err => {
-    console.log(err);
     res.redirect("/");
+  });
+});
+
+app.use((req, res, next) => {
+  res.status(404).render("404", {
+    pageTitle: "Page Not Found",
+    path: "/404",
+    isAuthenticated: req.session.isLoggedIn
   });
 });
 

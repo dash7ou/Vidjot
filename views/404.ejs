@@ -1,0 +1,12 @@
+<%- include("./includes/header.ejs")%>
+<link rel="stylesheet" href="/css/main.css">
+
+</head>
+<body>
+    <%- include("./includes/navbar.ejs") %>
+    <%if(!isAuthenticated){%>
+    <h1>You must login in to show page</h1>
+    <%}else{%>
+        <h1> 404. page Not Found</h1>
+        <%}%>
+    <%-include("./includes/end.ejs")%>
