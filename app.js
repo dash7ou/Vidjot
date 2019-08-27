@@ -147,6 +147,20 @@ app.get("/ideas/delete/:id", async (req, res) => {
 });
 
 //login route
+app.get("/login", (req, res) => {
+  res.render("auth/login", {
+    pageTitle: "Login",
+    path: "login"
+  });
+});
+
+//signup router
+app.get("/signup", (req, res) => {
+  res.render("auth/login", {
+    pageTitle: "Signup",
+    path: "Signup"
+  });
+});
 
 //setup port
 const port = 3000 || process.env.PORT;
