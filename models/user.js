@@ -16,7 +16,13 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true
-    }
+    },
+    ideas: [
+      {
+        type: Object,
+        ref: "Idea"
+      }
+    ]
   },
   {
     timestamps: true

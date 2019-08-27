@@ -6,6 +6,11 @@
 <body>
     <%- include("../includes/navbar.ejs") %>
     <h1>Ideas</h1>
+    <%if(errors.length > 0){%>
+        <div class="show-error">
+            <p> <%= errors[0].message %></p>
+        </div>
+    <%}%>
     <%if(successfully.length > 0){%>
         <div class="show-success">
             <p> <%= successfully[0].message %></p>

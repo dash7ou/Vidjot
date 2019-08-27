@@ -82,6 +82,7 @@ app.get("/ideas/add", isAuth, (req, res) => {
 
 app.post("/ideas", isAuth, async (req, res) => {
   const ideaId = req.body.ideaId;
+  const user = req.user;
   if (ideaId) {
     const idea = await Idea.findById(ideaId);
     const title = req.body.title;
@@ -104,7 +105,8 @@ app.post("/ideas", isAuth, async (req, res) => {
       pageTitle: "Show All Ideas",
       path: "/ideas",
       ideas: ideas,
-      successfully: successfully
+      successfully: successfully,
+      errors: []
     });
   } else {
     const title = req.body.title;
@@ -132,16 +134,22 @@ app.post("/ideas", isAuth, async (req, res) => {
     }
     const idea = new Idea({
       title: title,
-      details: description
+      details: description,
+      author: user._id
     });
     await idea.save();
+
+    user.ideas.push(idea);
     const ideas = await Idea.find();
+
+    await user.save();
 
     res.render("ideas/showIdeas", {
       pageTitle: "Show All Ideas",
       path: "/ideas",
       ideas: ideas,
-      successfully: []
+      successfully: [],
+      errors: []
     });
   }
 });
@@ -153,14 +161,31 @@ app.get("/ideas", isAuth, async (req, res) => {
     pageTitle: "Show All Ideas",
     path: "/ideas",
     ideas: ideas,
-    successfully: []
+    successfully: [],
+    errors: []
   });
 });
 
 app.get("/ideas/edit/:id", isAuth, async (req, res) => {
   const idea = await Idea.findById(req.params.id);
+  const user = req.user;
+  const ideas = await Idea.find();
+
+  if (user._id.toString() !== idea.author.toString()) {
+    const errors = [
+      { message: "You are not author to this product to edit it" }
+    ];
+    return res.render("ideas/showIdeas", {
+      pageTitle: "Show All Ideas",
+      path: "/ideas",
+      errors: errors,
+      successfully: [],
+      ideas: ideas
+    });
+  }
+
   res.render("ideas/addIdea", {
-    pageTitle: "Edit product",
+    pageTitle: "Edit Idea",
     path: "/edit",
     idea: idea,
     errors: []
@@ -169,13 +194,29 @@ app.get("/ideas/edit/:id", isAuth, async (req, res) => {
 
 app.get("/ideas/delete/:id", isAuth, async (req, res) => {
   const idea = await Idea.findById(req.params.id);
+  const user = req.user;
+
+  if (user._id.toString() !== idea.author.toString()) {
+    const ideas = await Idea.find();
+    const errors = [
+      { message: "You are not author to this product to delete it" }
+    ];
+    return res.render("ideas/showIdeas", {
+      pageTitle: "Show All Ideas",
+      path: "/ideas",
+      errors: errors,
+      successfully: [],
+      ideas: ideas
+    });
+  }
   await Idea.deleteOne({ _id: req.params.id });
   const ideas = await Idea.find();
   res.render("ideas/showIdeas", {
     pageTitle: "Show All Ideas",
     path: "/ideas",
     ideas: ideas,
-    successfully: []
+    successfully: [],
+    errors: []
   });
 });
 
