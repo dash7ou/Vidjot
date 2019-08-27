@@ -4,6 +4,7 @@ const path = require("path");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const { Idea } = require("./models/idea");
+const session = require("express-session");
 
 //set ejs engine and views folder
 app.set("view engine", "ejs");
@@ -13,6 +14,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 //add css and js in public folder to express
 app.use(express.static(path.join(__dirname, "public")));
+
+//express session middleware
+app.use(
+  session({
+    secret: "anythingyouwant",
+    resave: true,
+    saveUninitialized: true
+  })
+);
 
 app.get("/", (req, res) => {
   res.render("index", {
@@ -135,6 +145,8 @@ app.get("/ideas/delete/:id", async (req, res) => {
     successfully: []
   });
 });
+
+//login route
 
 //setup port
 const port = 3000 || process.env.PORT;
